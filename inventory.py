@@ -31,8 +31,7 @@ class Inventory:
     def add_item(self, id: str, name: str, desc: str, price: int, quantity: str):
         product = Product(id, name, desc, price, quantity)
         self.products.append(product)
-        self.save_item("products.csv", id, name, desc, price, quantity)
-
+        
     
     @staticmethod
     def load_inventory(filename): 
