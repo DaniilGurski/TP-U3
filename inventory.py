@@ -12,7 +12,7 @@ class Product:
 
 
     def __str__(self) -> str:           
-        return f"{self.id} | {self.name} | {self.desc} | {self.price} | {self.quantity}"
+        return f" #{self.id} | {self.name} | {self.desc} | {self.price} | {self.quantity}"
 
 
 class Inventory: 
@@ -24,15 +24,33 @@ class Inventory:
 
     def check_inventory(self):
         system("cls")
-        for product in self.products: 
-            print(product)
+
+        if not len(self.products):
+            print("Inventory is empty")
+
+        for index, product in enumerate(self.products): 
+            print(f"{index + 1}.) {product}")
 
 
     def add_item(self, id: str, name: str, desc: str, price: int, quantity: str):
         product = Product(id, name, desc, price, quantity)
         self.products.append(product)
-        
+
     
+    def remove_item(self, products, id):
+        system("cls")
+
+        if id < 1 or id > len(products):
+            self.check_inventory()
+            return print("Invalid id")
+
+        
+        for index in range(len(products)): 
+            if index == id - 1:
+                products.pop(id - 1)
+                self.check_inventory()
+
+
     @staticmethod
     def load_inventory(filename): 
         products = []
@@ -60,7 +78,15 @@ def main():
     inventory.add_item(len(loaded_products), "Mouse PRO click", "A cool mouse", 598, 10)
     inventory.check_inventory()
 
+    while True: 
+        try: 
+            user_input = int(input("which item you want to remove (enter its position as a number): "))
+        except ValueError: 
+            inventory.check_inventory()
+            print("Invalid index")
+            continue
+        inventory.remove_item(inventory.products, user_input)
+
 
 if __name__ == "__main__": 
      main()
-
